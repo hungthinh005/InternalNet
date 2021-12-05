@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    .IT-container{
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr;
+    }
+</style>
+
+<div class="IT-container">
+    <div>
+        <h5>{{function_count}} rooms available</h5>
+        <a href="{% url 'create-meeting' %}">Create Meeting</a>
+        <hr>
+        <div>
+            <h3> Department: IT</h3>
+            
+        </div>
+        
+        <div>
+        <a href="{% url 'home' %}" >Back</a>
+        
+        </div>
+    </div>
+
+    <div>
+        
+        {% for function in functions %}
+        <div>   
+            
+            <h3> <a href="{% url 'function' function.id %}">{{function.name}}</a> -- <span>host by: @{{function.host.username}}</span> </h3>
+            <a href="{% url 'update-meeting' function.id %}">Edit</a>
+            <a href="{% url 'delete-meeting' function.id %}">Delete</a>     
+            
+            <hr>
+        </div>          
+        {% endfor %}
+    </div>
+
+    
+
+</div>
+{% endblock content %}

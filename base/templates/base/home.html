@@ -1,0 +1,69 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr;
+    }
+</style>
+
+<div class="home-container">
+    <div>
+        <h5>{{function_count}} rooms available</h5>
+        <a href="{% url 'create-meeting' %}">Create Meeting</a>
+        <hr>
+        <div>
+            <h3> Department </h3>
+            <a href="{% url 'home' %}">All</a>
+        </div>
+        
+        <div>
+            <a href="{% url 'IT' %}?q=IT" >IT</a>
+        </div>
+        <div>
+            <a href="{% url 'Marketing' %}?q=Marketing" >Marketing</a>
+        </div>
+        
+    </div>
+
+    <div>
+        
+        {% for function in functions %}
+        <div>   
+            
+            <h3> <a >{{function.name}}</a> -- <span>host by: @{{function.host.username}}</span> </h3>
+            
+            <!-- <a href="{% url 'update-meeting' function.id %}">Edit</a>
+            <a href="{% url 'delete-meeting' function.id %}">Delete</a>      -->
+            
+            <hr>
+        </div>          
+        {% endfor %}
+    </div>
+
+    <div>
+        <h3>Recent Activities</h3>
+        <hr>
+        {% for message in function_messages %}
+            
+            {% if request.user == message.user %}
+            <div>
+                
+                <p> you replied to {{message.function}}: </p>
+                <small>{{message.created|timesince}} ago </small>
+                <h3>   {{message.body}} </h3>
+                
+                <a href="{% url 'delete-message' message.id %}">Delete</a>
+                
+                
+                <hr>
+                
+            </div>
+            {%endif%}
+            
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock content %}
